@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866704172901",
+    "project_id": "sondm-coffeeshop",
+    "storage_bucket": "sondm-coffeeshop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866704172901:android:5763ee37bb45a2bf2e638c",
+        "android_client_info": {
+          "package_name": "vn.edu.fpt.coffeeshop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLZTmQxh8RCBuzRXYchau5Sqc_o0ddg4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
