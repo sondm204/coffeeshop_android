@@ -26,35 +26,42 @@ import vn.edu.fpt.coffeeshop.Domain.CategoryModel;
 import vn.edu.fpt.coffeeshop.Domain.ItemsModel;
 
 public class MainRepository {
+
+    private final ApiService apiService;
+
+    public MainRepository() {
+        apiService = ApiClient.getClient().create(ApiService.class);
+    }
+
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance(
             "https://sondm-coffeeshop-default-rtdb.asia-southeast1.firebasedatabase.app/"
     );
 
-    public LiveData<List<BannerModel>> loadBanner() {
-        MutableLiveData<List<BannerModel>> listData = new MutableLiveData<>();
-        DatabaseReference ref = firebaseDatabase.getReference("Banner");
-
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<BannerModel> list = new ArrayList<>();
-                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    BannerModel item = childSnapshot.getValue(BannerModel.class);
-                    if (item != null) {
-                        list.add(item);
-                    }
-                }
-                listData.setValue(list);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi (nếu cần)
-            }
-        });
-
-        return listData;
-    }
+//    public LiveData<List<BannerModel>> loadBanner() {
+//        MutableLiveData<List<BannerModel>> listData = new MutableLiveData<>();
+//        DatabaseReference ref = firebaseDatabase.getReference("Banner");
+//
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                List<BannerModel> list = new ArrayList<>();
+//                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+//                    BannerModel item = childSnapshot.getValue(BannerModel.class);
+//                    if (item != null) {
+//                        list.add(item);
+//                    }
+//                }
+//                listData.setValue(list);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Xử lý lỗi (nếu cần)
+//            }
+//        });
+//
+//        return listData;
+//    }
 
 //    public LiveData<List<CategoryModel>> loadCategory() {
 //        MutableLiveData<List<CategoryModel>> listData = new MutableLiveData<>();
@@ -81,20 +88,94 @@ public class MainRepository {
 //
 //        return listData;
 //    }
+//public LiveData<List<ItemsModel>> loadPopular() {
+//    MutableLiveData<List<ItemsModel>> listData = new MutableLiveData<>();
+//    DatabaseReference ref = firebaseDatabase.getReference("Popular");
+//
+//    ref.addValueEventListener(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//            List<ItemsModel> list = new ArrayList<>();
+//            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+//                ItemsModel item = childSnapshot.getValue(ItemsModel.class);
+//                if (item != null) {
+//                    list.add(item);
+//                }
+//            }
+//            listData.setValue(list);
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError error) {
+//            // Xử lý lỗi (nếu cần)
+//        }
+//    });
+//
+//    return listData;
+//}
+//public LiveData<List<ItemsModel>> loadItemCategory(String categoryId) {
+//    MutableLiveData<List<ItemsModel>> itemsLiveData = new MutableLiveData<>();
+//    DatabaseReference ref = firebaseDatabase.getReference("Items");
+//    Query query = ref.orderByChild("categoryId").equalTo(categoryId);
+//
+//    query.addListenerForSingleValueEvent(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//            List<ItemsModel> list = new ArrayList<>();
+//
+//            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+//                ItemsModel item = childSnapshot.getValue(ItemsModel.class);
+//                if (item != null) {
+//                    list.add(item);
+//                }
+//            }
+//
+//            itemsLiveData.setValue(list);
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError error) {
+//
+//        }
+//    });
+//    return itemsLiveData;
+//}
+
+    public LiveData<List<BannerModel>> loadBanner() {
+        MutableLiveData<List<BannerModel>> listData = new MutableLiveData<>();
+
+        Call<List<BannerModel>> call = apiService.getBanners();
+
+        call.enqueue(new Callback<List<BannerModel>>() {
+            @Override
+            public void onResponse(Call<List<BannerModel>> call, Response<List<BannerModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listData.setValue(response.body());
+                } else {
+                    listData.setValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BannerModel>> call, Throwable t) {
+                listData.setValue(new ArrayList<>());
+            }
+        });
+        return listData;
+    }
 
     public LiveData<List<CategoryModel>> loadCategory() {
         MutableLiveData<List<CategoryModel>> listData = new MutableLiveData<>();
 
-        ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<List<CategoryModel>> call = apiService.getCategories();
 
         call.enqueue(new Callback<List<CategoryModel>>() {
             @Override
             public void onResponse(Call<List<CategoryModel>> call, Response<List<CategoryModel>> response) {
-                if(response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null) {
                     listData.setValue(response.body());
                 } else {
-                  listData.setValue(new ArrayList<>());
+                    listData.setValue(new ArrayList<>());
                 }
             }
 
@@ -109,24 +190,22 @@ public class MainRepository {
 
     public LiveData<List<ItemsModel>> loadPopular() {
         MutableLiveData<List<ItemsModel>> listData = new MutableLiveData<>();
-        DatabaseReference ref = firebaseDatabase.getReference("Popular");
+        Call<List<ItemsModel>> call = apiService.getPopulars();
 
-        ref.addValueEventListener(new ValueEventListener() {
+        call.enqueue(new Callback<List<ItemsModel>>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<ItemsModel> list = new ArrayList<>();
-                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    ItemsModel item = childSnapshot.getValue(ItemsModel.class);
-                    if (item != null) {
-                        list.add(item);
-                    }
+            public void onResponse(Call<List<ItemsModel>> call, Response<List<ItemsModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    listData.setValue(response.body());
+                } else {
+                    listData.setValue(new ArrayList<>());
                 }
-                listData.setValue(list);
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Xử lý lỗi (nếu cần)
+            public void onFailure(Call<List<ItemsModel>> call, Throwable t) {
+                listData.setValue(new ArrayList<>());
             }
         });
 
@@ -135,27 +214,21 @@ public class MainRepository {
 
     public LiveData<List<ItemsModel>> loadItemCategory(String categoryId) {
         MutableLiveData<List<ItemsModel>> itemsLiveData = new MutableLiveData<>();
-        DatabaseReference ref = firebaseDatabase.getReference("Items");
-        Query query = ref.orderByChild("categoryId").equalTo(categoryId);
+        Call<List<ItemsModel>> call = apiService.getProductByCategory(categoryId);
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        call.enqueue(new Callback<List<ItemsModel>>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<ItemsModel> list = new ArrayList<>();
-
-                for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                    ItemsModel item = childSnapshot.getValue(ItemsModel.class);
-                    if (item != null) {
-                        list.add(item);
-                    }
+            public void onResponse(Call<List<ItemsModel>> call, Response<List<ItemsModel>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    itemsLiveData.setValue(response.body());
+                } else{
+                    itemsLiveData.setValue(new ArrayList<>());
                 }
-
-                itemsLiveData.setValue(list);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onFailure(Call<List<ItemsModel>> call, Throwable t) {
+                itemsLiveData.setValue(new ArrayList<>());
             }
         });
         return itemsLiveData;
