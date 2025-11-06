@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="@string/choice_your_nfavourite_coffee"
-        android:textStyle="bold"
-        android:textColor="@color/white"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="37sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,15 +34,27 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/startBtn"
-        android:paddingHorizontal="32dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@android:style/Widget.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/get_started"
         android:layout_margin="32dp"
         android:background="@drawable/white_bg"
-        style="@android:style/Widget.Button"
+        android:paddingHorizontal="32dp"
+        android:text="@string/get_started"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/loginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_bg"
+        android:padding="12dp"
+        android:layout_margin="32dp"
+        android:src="@drawable/login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

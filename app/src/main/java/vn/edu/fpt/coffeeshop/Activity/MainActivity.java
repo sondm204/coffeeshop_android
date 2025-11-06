@@ -2,20 +2,31 @@ package vn.edu.fpt.coffeeshop.Activity;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.fpt.coffeeshop.Adapter.BannerAdapter;
 import vn.edu.fpt.coffeeshop.Adapter.CategoryAdapter;
 import vn.edu.fpt.coffeeshop.Adapter.PopularAdapter;
+import vn.edu.fpt.coffeeshop.Api.ApiClient;
+import vn.edu.fpt.coffeeshop.Api.ApiService;
 import vn.edu.fpt.coffeeshop.Domain.BannerModel;
 import vn.edu.fpt.coffeeshop.R;
 import vn.edu.fpt.coffeeshop.ViewModel.MainViewModel;
@@ -25,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private MainViewModel viewModel = new MainViewModel();
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        apiService = ApiClient.getClient().create(ApiService.class);
 
         initBanner();
         initCategory();
@@ -79,15 +92,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<BannerModel> banners) {
                 if (banners != null && !banners.isEmpty()) {
-                    BannerModel banner = banners.get(0);
+                    List<String> bannersUrl = banners.stream().map(BannerModel::getUrl).collect(Collectors.toList());
+                    BannerAdapter adapter = new BannerAdapter(MainActivity.this, bannersUrl);
+                    binding.bannerSlider.setAdapter(adapter);
 
-                    Glide.with(MainActivity.this)
-                            .load(banner.getUrl())
-                            .into(binding.banner);
+                    final Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            int current = binding.bannerSlider.getCurrentItem();
+                            int next = (current + 1) % banners.size();
+                            binding.bannerSlider.setCurrentItem(next, true);
+                            handler.postDelayed(this, 3000);
+                        }
+                    };
+                    handler.postDelayed(runnable, 3000);
 
                     binding.progressBarBanner.setVisibility(View.GONE);
                 }
             }
         });
     }
+
 }
