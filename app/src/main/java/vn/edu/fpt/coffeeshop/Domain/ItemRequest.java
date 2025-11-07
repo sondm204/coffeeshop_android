@@ -1,38 +1,24 @@
 package vn.edu.fpt.coffeeshop.Domain;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsModel implements Serializable {
-    private String id;
+public class ItemRequest {
     private String title;
     private String description;
     private List<String> picUrl;
     private Double price;
-    private Double rating;
-    private int numberInCart;
     private String extra;
     private String categoryId;
 
-    public ItemsModel() {
-        this.id = "";
-        this.title = "";
-        this.description = "";
-        this.picUrl = new ArrayList<>();
-        this.price = 0.0;
-        this.rating = 0.0;
-        this.numberInCart = 0;
-        this.extra = "";
-        this.categoryId = "";
-    }
+    public ItemRequest() {}
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public ItemRequest(String title, String description, List<String> picUrl, Double price, String extra, String categoryId) {
+        this.title = title;
+        this.description = description;
+        this.picUrl = picUrl;
+        this.price = price;
+        this.extra = extra;
+        this.categoryId = categoryId;
     }
 
     public String getTitle() {
@@ -65,22 +51,6 @@ public class ItemsModel implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
-
-    public int getNumberInCart() {
-        return numberInCart;
-    }
-
-    public void setNumberInCart(int numberInCart) {
-        this.numberInCart = numberInCart;
     }
 
     public String getExtra() {

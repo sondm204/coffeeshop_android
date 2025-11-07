@@ -24,7 +24,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         binding.loginBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intent = new Intent(SplashActivity.this, DashboardActivity.class);
             startActivity(intent);
         });
     }
