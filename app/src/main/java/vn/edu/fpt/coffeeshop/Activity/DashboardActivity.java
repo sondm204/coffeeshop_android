@@ -3,6 +3,7 @@ package vn.edu.fpt.coffeeshop.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -35,5 +36,10 @@ public class DashboardActivity extends AppCompatActivity {
                 .circleCrop()
                 .placeholder(R.drawable.profile)
                 .into(binding.avatarUrl);
+
+        binding.productBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, DashboardItemsActivity.class);
+            startActivity(intent);
+        });
     }
 }

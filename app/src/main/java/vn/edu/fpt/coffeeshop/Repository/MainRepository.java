@@ -1,6 +1,8 @@
 package vn.edu.fpt.coffeeshop.Repository;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -19,10 +21,13 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.edu.fpt.coffeeshop.Activity.DashboardItemFormActivity;
+import vn.edu.fpt.coffeeshop.Activity.LoginActivity;
 import vn.edu.fpt.coffeeshop.Api.ApiClient;
 import vn.edu.fpt.coffeeshop.Api.ApiService;
 import vn.edu.fpt.coffeeshop.Domain.BannerModel;
 import vn.edu.fpt.coffeeshop.Domain.CategoryModel;
+import vn.edu.fpt.coffeeshop.Domain.ItemRequest;
 import vn.edu.fpt.coffeeshop.Domain.ItemsModel;
 
 public class MainRepository {
@@ -219,9 +224,9 @@ public class MainRepository {
         call.enqueue(new Callback<List<ItemsModel>>() {
             @Override
             public void onResponse(Call<List<ItemsModel>> call, Response<List<ItemsModel>> response) {
-                if (response.isSuccessful() && response.body() != null){
+                if (response.isSuccessful() && response.body() != null) {
                     itemsLiveData.setValue(response.body());
-                } else{
+                } else {
                     itemsLiveData.setValue(new ArrayList<>());
                 }
             }
@@ -233,4 +238,73 @@ public class MainRepository {
         });
         return itemsLiveData;
     }
+
+    public LiveData<List<ItemsModel>> loadAllItems() {
+        MutableLiveData<List<ItemsModel>> itemsLiveData = new MutableLiveData<>();
+        Call<List<ItemsModel>> call = apiService.getAllProducts();
+
+        call.enqueue(new Callback<List<ItemsModel>>() {
+            @Override
+            public void onResponse(Call<List<ItemsModel>> call, Response<List<ItemsModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    itemsLiveData.setValue(response.body());
+                } else {
+                    itemsLiveData.setValue(new ArrayList<>());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ItemsModel>> call, Throwable t) {
+                itemsLiveData.setValue(new ArrayList<>());
+            }
+        });
+        return itemsLiveData;
+    }
+
+    public LiveData<ItemsModel> updateItem(Context context, String id, ItemRequest request) {
+        MutableLiveData<ItemsModel> updateResult = new MutableLiveData<>();
+        Call<ItemsModel> call = apiService.updateProduct(id, request);
+
+        call.enqueue(new Callback<ItemsModel>() {
+            @Override
+            public void onResponse(Call<ItemsModel> call, Response<ItemsModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    updateResult.postValue(response.body());
+                    Toast.makeText(context, "Update successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateResult.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemsModel> call, Throwable t) {
+                updateResult.postValue(null);
+            }
+        });
+        return updateResult;
+    }
+
+    public LiveData<ItemsModel> createItem(Context context, ItemRequest request) {
+        MutableLiveData<ItemsModel> updateResult = new MutableLiveData<>();
+        Call<ItemsModel> call = apiService.createProduct(request);
+
+        call.enqueue(new Callback<ItemsModel>() {
+            @Override
+            public void onResponse(Call<ItemsModel> call, Response<ItemsModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    updateResult.postValue(response.body());
+                    Toast.makeText(context, "Created successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    updateResult.postValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemsModel> call, Throwable t) {
+                updateResult.postValue(null);
+            }
+        });
+        return updateResult;
+    }
+
 }
