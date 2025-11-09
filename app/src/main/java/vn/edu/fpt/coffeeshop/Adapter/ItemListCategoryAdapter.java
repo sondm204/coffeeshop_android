@@ -49,9 +49,15 @@ public class ItemListCategoryAdapter extends RecyclerView.Adapter<ItemListCatego
         holder.binding.priceTxt.setText("$" + item.getPrice().toString());
         holder.binding.subtitleTxt.setText(item.getExtra());
 
-        Glide.with(context)
-                .load(item.getPicUrl().get(0))
-                .into(holder.binding.pic);
+//        Glide.with(context)
+//                .load(item.getPicUrl().get(0))
+//                .into(holder.binding.pic);
+
+        if (item.getPicUrl() != null && !item.getPicUrl().isEmpty()) {
+            Glide.with(context)
+                    .load(item.getPicUrl().get(0))
+                    .into(holder.binding.pic);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);

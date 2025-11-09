@@ -56,9 +56,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<AccountResponse> call, Response<AccountResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     AccountResponse account = response.body();
-                    if (account.getRole().equalsIgnoreCase("admin")) {
+                    if (account.getRole().equalsIgnoreCase("admin") || account.getRole().equalsIgnoreCase("employee")) {
                         Toast.makeText(LoginActivity.this, "Login successfully", Toast.LENGTH_SHORT).show();
                         tinyDB.putObject("current_account", account);
+                        tinyDB.putString("access_token", account.getToken());
+                        ApiClient.setAuthToken(account.getToken());
                         startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                     } else {
                         Toast.makeText(LoginActivity.this, "This user is not authorized!", Toast.LENGTH_SHORT).show();

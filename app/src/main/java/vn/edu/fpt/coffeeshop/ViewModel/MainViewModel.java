@@ -41,4 +41,8 @@ public class MainViewModel extends ViewModel {
     public LiveData<ItemsModel> createItem(Context context, ItemRequest request) {
         return repository.createItem(context, request);
     }
+
+    public void deleteItem(Context context, String id){
+        repository.deleteItem(context, id);
+    }
 }
