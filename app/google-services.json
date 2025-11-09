@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "866704172901",
+    "firebase_url": "https://sondm-coffeeshop-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "sondm-coffeeshop",
     "storage_bucket": "sondm-coffeeshop.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "vn.edu.fpt.coffeeshop"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "866704172901-4cgfp6934iomee1tvkd947fla74jpi6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.edu.fpt.coffeeshop",
+            "certificate_hash": "5999b702643c80b711fc3454b094a77ba4d1018f"
+          }
+        },
+        {
+          "client_id": "866704172901-7sclc9vas7mmmeisehkchlt1ei2f5s2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBLZTmQxh8RCBuzRXYchau5Sqc_o0ddg4o"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866704172901-7sclc9vas7mmmeisehkchlt1ei2f5s2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
