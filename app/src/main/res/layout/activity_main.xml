@@ -44,7 +44,7 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/logoutBtn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:background="@drawable/brown_full_corner_bg"

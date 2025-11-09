@@ -11,6 +11,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import vn.edu.fpt.coffeeshop.Domain.BannerModel;
 import vn.edu.fpt.coffeeshop.Domain.CategoryModel;
+import vn.edu.fpt.coffeeshop.Domain.GoogleLoginRequest;
 import vn.edu.fpt.coffeeshop.Domain.ItemRequest;
 import vn.edu.fpt.coffeeshop.Domain.ItemsModel;
 import vn.edu.fpt.coffeeshop.Domain.LoginRequest;
@@ -20,6 +21,8 @@ public interface ApiService {
 
     @POST("/api/auth/login")
     Call<AccountResponse> login(@Body LoginRequest request);
+    @POST("/api/auth/login/google")
+    Call<AccountResponse> loginWithGoogle(@Body GoogleLoginRequest request);
 
     @GET("/api/banners")
     Call<List<BannerModel>> getBanners();

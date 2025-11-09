@@ -42,12 +42,12 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/logoutBtn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/brown_full_corner_bg"
+                    android:background="@drawable/white_full_corner_bg"
                     android:padding="12dp"
-                    android:src="@drawable/bell_icon" />
+                    android:src="@drawable/login" />
 
             </LinearLayout>
 
