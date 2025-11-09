@@ -29,6 +29,7 @@ import vn.edu.fpt.coffeeshop.Domain.BannerModel;
 import vn.edu.fpt.coffeeshop.Domain.CategoryModel;
 import vn.edu.fpt.coffeeshop.Domain.ItemRequest;
 import vn.edu.fpt.coffeeshop.Domain.ItemsModel;
+import vn.edu.fpt.coffeeshop.Helper.TinyDB;
 
 public class MainRepository {
 
@@ -273,6 +274,7 @@ public class MainRepository {
                     Toast.makeText(context, "Update successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     updateResult.postValue(null);
+                    Toast.makeText(context, "Update fail", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -296,6 +298,7 @@ public class MainRepository {
                     Toast.makeText(context, "Created successfully", Toast.LENGTH_SHORT).show();
                 } else {
                     updateResult.postValue(null);
+                    Toast.makeText(context, "Created fail", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -305,6 +308,27 @@ public class MainRepository {
             }
         });
         return updateResult;
+    }
+
+    public void deleteItem(Context context, String id) {
+        Call<Void> call = apiService.deleteProduct(id);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(context, "Deleted successfully", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(context, "Deleted fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
     }
 
 }

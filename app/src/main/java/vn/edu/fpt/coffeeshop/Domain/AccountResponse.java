@@ -5,15 +5,9 @@ public class AccountResponse {
     private String name;
     private String imageUrl;
     private String role;
+    private String token;
 
     public AccountResponse() {}
-
-    public AccountResponse(int id, String name, String imageUrl, String role) {
-        this.id = id;
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.role = role;
-    }
 
     public int getId() {
         return id;
@@ -45,5 +39,13 @@ public class AccountResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
