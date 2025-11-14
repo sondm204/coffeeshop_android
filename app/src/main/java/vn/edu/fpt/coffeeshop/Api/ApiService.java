@@ -9,6 +9,8 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import vn.edu.fpt.coffeeshop.Domain.AiRequest;
+import vn.edu.fpt.coffeeshop.Domain.AiResponse;
 import vn.edu.fpt.coffeeshop.Domain.BannerModel;
 import vn.edu.fpt.coffeeshop.Domain.CategoryModel;
 import vn.edu.fpt.coffeeshop.Domain.GoogleLoginRequest;
@@ -47,4 +49,7 @@ public interface ApiService {
 
     @DELETE("/api/products/{id}")
     Call<Void> deleteProduct(@Path("id") String id);
+
+    @POST("/api/ai/chat")
+    Call<AiResponse> chat(@Body AiRequest request);
 }

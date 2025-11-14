@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         binding.cartBtn.setOnClickListener(v -> {
             startActivity(new Intent(this, CartActivity.class));
         });
+
+        binding.chatbotBtn.setOnClickListener(v -> {
+            startActivity(new Intent(this, ChatbotActivity.class));
+        });
     }
 
     private void initPopular() {
